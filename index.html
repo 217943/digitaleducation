@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 2024 웹사이트 (Netlify 배포용)</title>
+    
+    <!-- CSS 스타일: style.css 파일의 내용을 여기에 포함시켰습니다. -->
+    <style>
+        /* --- 기본 및 변수 설정 --- */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #00aaff;
+            --text-color: #e0e0e0;
+            --text-secondary-color: #a0a0a0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px; /* 고정 헤더 높이만큼 패딩 추가 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- 공용 스타일 --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            color: #ffffff;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ffffff;
+        }
+
+        /* --- 헤더 및 내비게이션 --- */
+        header {
+            background-color: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #fff;
+            border-bottom-color: var(--primary-color);
+        }
+
+
+        /* --- 홈(Hero) 섹션 --- */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1600x900/?technology,network') no-repeat center center/cover;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary-color);
+        }
+
+        /* --- 프로그램 섹션 --- */
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .program-item {
+            background-color: var(--surface-color);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .program-item h3 {
+            margin-bottom: 10px;
+        }
+
+        /* --- 연락처(Contact) 섹션 --- */
+        #contact p {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            color: var(--text-secondary-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-card {
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 170, 255, 0.1);
+        }
+
+        .contact-card h3 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .contact-card .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 0 0 10px 0;
+        }
+
+        .contact-card a {
+            font-size: 1rem;
+        }
+
+        /* --- 푸터 --- */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: var(--surface-color);
+            color: var(--text-secondary-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- 반응형 디자인 --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            /* 모바일에서 메뉴를 숨기는 대신, 공간을 확보하기 위해 다른 방식을 사용하거나 그대로 둘 수 있습니다. */
+            /* 여기서는 간단하게 폰트 사이즈를 줄여보겠습니다. */
+            nav ul li a {
+                font-size: 0.9rem;
+            }
+             nav ul li {
+                margin-left: 15px;
+            }
+
+            .program-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 및 내비게이션 -->
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo">My-Project 2024</a>
+            <ul>
+                <li><a href="#about">소개</a></li>
+                <li><a href="#program">프로그램</a></li>
+                <li><a href="#contact">연락처</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 홈 섹션 -->
+        <section id="home" class="hero">
+            <div class="container">
+                <!-- 여기에 원하시는 내용을 채워주세요 -->
+                <h1>My-Project 2024</h1>
+                <p>혁신적인 아이디어가 현실이 되는 공간</p>
+            </div>
+        </section>
+
+        <!-- 소개 섹션 -->
+        <section id="about">
+            <div class="container">
+                <h2>About My-Project</h2>
+                <!-- 여기에 원하시는 내용을 채워주세요 -->
+                <p>
+                    저희는 기술을 통해 더 나은 미래를 만들고자 하는 열정적인 사람들의 모임입니다.
+                    이곳에서는 다양한 분야의 전문가들이 모여 지식을 공유하고, 협업하며, 새로운 가치를 창출합니다.
+                    올해의 프로젝트에서는 인공지능, 데이터 사이언스, 웹 기술의 최신 동향을 다룹니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- 프로그램 섹션 -->
+        <section id="program">
+            <div class="container">
+                <h2>Program</h2>
+                <div class="program-grid">
+                    <!-- 프로그램 내용을 자유롭게 수정 및 추가하세요 -->
+                    <div class="program-item">
+                        <h3>오프닝 세션</h3>
+                        <p><strong>시간:</strong> 09:00 - 10:00</p>
+                        <p>올해의 프로젝트 목표와 비전을 공유합니다.</p>
+                    </div>
+                    <div class="program-item">
+                        <h3>기술 강연 1: AI</h3>
+                        <p><strong>시간:</strong> 10:00 - 12:00</p>
+                        <p>최신 인공지능 모델과 실제 적용 사례를 소개합니다.</p>
+                    </div>
+                    <div class="program-item">
+                        <h3>네트워킹</h3>
+                        <p><strong>시간:</strong> 13:00 - 14:00</p>
+                        <p>참가자들과 자유롭게 교류하는 시간입니다.</p>
+                    </div>
+                     <div class="program-item">
+                        <h3>기술 강연 2: Web</h3>
+                        <p><strong>시간:</strong> 14:00 - 16:00</p>
+                        <p>차세대 웹 프레임워크와 개발 트렌드를 알아봅니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 연락처 섹션 (요청하신 핵심 부분) -->
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Information</h2>
+                <p>프로젝트에 대해 궁금한 점이 있다면 언제든지 아래 연락처로 문의해주세요.</p>
+                <div class="contact-grid">
+                    <!-- 연락처 정보를 실제 정보로 수정하세요 -->
+                    <div class="contact-card">
+                        <h3>총괄 (President)</h3>
+                        <p class="name">정유선</p>
+                        <a href="mailto:president@example.com">president@example.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <h3>부총괄 (Vice President)</h3>
+                        <p class="name">이서연</p>
+                        <a href="mailto:vice.president@example.com">vice.president@example.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <h3>기술 담당 (Tech Lead)</h3>
+                        <p class="name">박도윤</p>
+                        <a href="mailto:tech@example.com">tech@example.com</a>
+                    </div>
+                     <div class="contact-card">
+                        <h3>홍보 담당 (Marketing)</h3>
+                        <p class="name">최지우</p>
+                        <a href="mailto:marketing@example.com">marketing@example.com</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <!-- 저작권 문구를 수정하세요 -->
+            <p>&copy; 2024 My-Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript: script.js 파일의 내용을 여기에 포함시켰습니다. -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('header nav ul li a');
+
+            // 스크롤 이벤트 리스너
+            window.addEventListener('scroll', () => {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // 헤더 높이를 고려하여 활성화 시점 조정
+                    if (pageYOffset >= sectionTop - 70) { 
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
